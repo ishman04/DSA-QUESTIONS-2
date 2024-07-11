@@ -24,7 +24,9 @@ public:
         }
         vector<vector<int>> dir = { {1,0},{0,1},{-1,0},{0,-1} };
         while(!q.empty()){
-            auto [r,c]=q.front();
+            auto ele=q.front();
+            int r=ele.first;
+            int c=ele.second;
             q.pop();
             for(int i=0;i<4;i++){
                 int nr=r+dir[i][0];
