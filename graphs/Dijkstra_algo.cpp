@@ -8,27 +8,22 @@ void add_edge(int v,int u,int wt,bool bidir=true){
      if(bidir) gr[v].push_back({u,wt});
 }
 unordered_map<int,int> mp;
-void prims(int src,int n){
+void dijkstra(int src,int n){
     priority_queue<pp, vector<pp>,greater<pp>> pq;
     unordered_set<int> visited;
     vector<int> par(n);
-    
     pq.push({0,src});
     for(int i=0;i<n;i++){
         mp[i]=INT_MAX;
     }
     mp[src]=0;
-    int total_count=0;
-    int result=0;
-    while(total_count<n and !pq.empty()){
+    while(!pq.empty()){
         auto ele = pq.top();
         int wt=ele.first;
         int node=ele.second;
         pq.pop();
         if(visited.find(node)!=visited.end()) continue;
         visited.insert(node);
-        total_count++;
-        result += wt;
         for(auto it:gr[node]){
             if(!visited.count(it.first) and mp[it.first]>it.second+mp[node]){
                 pq.push({it.second+mp[node],it.first});
@@ -49,8 +44,7 @@ int main(){
     }
     int src;
     cin>>src;
-    
-    prims(src,n);
+    dijkstra(src,n);
     for(int i=0;i<n;i++) cout<<mp[i]<<" ";
 
 }
