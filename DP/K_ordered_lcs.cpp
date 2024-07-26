@@ -12,7 +12,7 @@ int f(string &s1, string &s2, int i,int j,int k){
         if(k>0){
             res=max({1+f(s1,s2,i-1,j-1,k-1),f(s1,s2,i-1,j,k),f(s1,s2,i,j-1,k)});
         }
-        else res= dp[i][j][k]=max({f(s1,s2,i-1,j,k),f(s1,s2,i,j-1,k)});
+        else res= max({f(s1,s2,i-1,j,k),f(s1,s2,i,j-1,k)});
     }
     return dp[i][j][k]=res;
 }
