@@ -46,35 +46,43 @@ struct Node
 class Solution
 {
     public:
-    multiset<int> s;
-    bool checkBigger(int n){
-        auto it=s.upper_bound(n);
-        return it!=s.end();
-    }
     Node *compute(Node *head)
     {
-        
-        Node* temp1=head;
-        while(temp1!=NULL){
-            s.insert(temp1->data);
-            temp1=temp1->next;
+                Node *prev = NULL, *curr = head, *next = NULL;
+        while (curr) {
+            next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
         }
-        Node* dummy=new Node(0);
-        dummy->next=head;
-        Node* temp=dummy; 
-        while(temp!=NULL && temp->next!=NULL){
-            if(checkBigger(temp->next->data)){
-                s.erase(s.find(temp->next->data));
-                temp->next=temp->next->next;
-                
-            }
-            else{
-                s.erase(s.find(temp->next->data));
-                temp=temp->next;
+
+        // Head of the reversed list
+        head = prev;
+
+        // Traverse the reversed list and keep only nodes that are greater than or equal to the max node so far
+        Node *maxNode = head;
+        curr = head;
+        while (curr != NULL && curr->next != NULL) {
+            if (curr->next->data < maxNode->data) {
+                Node *temp = curr->next;
+                curr->next = curr->next->next;
+                delete temp;
+            } else {
+                curr = curr->next;
+                maxNode = curr;
             }
         }
-        return dummy->next;
-        // your code goes here
+
+        // Reverse the list again to restore original order
+        prev = NULL, curr = head, next = NULL;
+        while (curr) {
+            next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+
+        return prev; 
     }
     
 };
