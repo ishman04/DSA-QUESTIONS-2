@@ -15,7 +15,7 @@ class Solution
         }
 
         vector<vector<bool>> visited(N+1, vector<bool>(N+1, false));
-        
+    
         queue<pair<pair<int, int>, int>> q;
         q.push({{KnightPos[0], KnightPos[1]}, 0});
         visited[KnightPos[0]][KnightPos[1]] = true;
