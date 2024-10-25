@@ -32,7 +32,7 @@ ll prims(int src,int n){
             if(!visited.count(it.first) and mp[it.first]>it.second){
                 pq.push({it.second,it.first});
                 par[it.first]=node;
-                mp[it.first]=it.second;
+                mp[it.first]=it.second; 
             }
         }
     }
