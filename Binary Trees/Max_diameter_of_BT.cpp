@@ -1,21 +1,23 @@
 //{ Driver Code Starts
-// Initial template for C++
-
 #include <bits/stdc++.h>
 using namespace std;
 
+/* A binary tree node has data, pointer to left child
+   and a pointer to right child */
 struct Node {
     int data;
     struct Node* left;
     struct Node* right;
-
-    Node(int val) {
-        data = val;
-        left = right = NULL;
-    }
 };
 
-// Function to Build Tree
+Node* newNode(int val) {
+    Node* temp = new Node;
+    temp->data = val;
+    temp->left = NULL;
+    temp->right = NULL;
+    return temp;
+}
+
 Node* buildTree(string str) {
     // Corner Case
     if (str.length() == 0 || str[0] == 'N')
@@ -30,7 +32,7 @@ Node* buildTree(string str) {
         ip.push_back(str);
 
     // Create the root of the tree
-    Node* root = new Node(stoi(ip[0]));
+    Node* root = newNode(stoi(ip[0]));
 
     // Push the root to the queue
     queue<Node*> queue;
@@ -50,8 +52,8 @@ Node* buildTree(string str) {
         // If the left child is not null
         if (currVal != "N") {
 
-            // Create the left child for the current Node
-            currNode->left = new Node(stoi(currVal));
+            // Create the left child for the current node
+            currNode->left = newNode(stoi(currVal));
 
             // Push it to the queue
             queue.push(currNode->left);
@@ -67,7 +69,7 @@ Node* buildTree(string str) {
         if (currVal != "N") {
 
             // Create the right child for the current node
-            currNode->right = new Node(stoi(currVal));
+            currNode->right = newNode(stoi(currVal));
 
             // Push it to the queue
             queue.push(currNode->right);
@@ -80,9 +82,8 @@ Node* buildTree(string str) {
 
 
 // } Driver Code Ends
-// User function template for C++
+/* Tree node structure  used in the program
 
-/*
 struct Node
 {
     int data;
@@ -93,36 +94,47 @@ struct Node
         data = x;
         left = right = NULL;
     }
-};
-*/
+}; */
+
 class Solution {
   public:
-    // Function to find the height of a binary tree.
-    int helper(struct Node* node){
+    int finalAns = INT_MIN;
+    int helper(Node* node){
         if(!node) return 0;
         int h = max(1+helper(node->left),1+helper(node->right));
         return h;
     }
-    int height(struct Node* node) {
-        // code here
-        return helper(node)-1;
+    void calcHeight(Node* root){
+        if(!root) return;
+        int ans1 = helper(root->left)+helper(root->right);
+        finalAns = max(finalAns,ans1);
+        calcHeight(root->left);
+        calcHeight(root->right);
+    }
+    int diameter(Node* root) {
+        // Your code here
+        calcHeight(root);
+        return finalAns;
     }
 };
 
 //{ Driver Code Starts.
+
+/* Driver program to test size function*/
 int main() {
     int t;
-    scanf("%d ", &t);
+    scanf("%d\n", &t);
     while (t--) {
-        string treeString;
-        getline(cin, treeString);
-        Node* root = buildTree(treeString);
+        string s;
+        getline(cin, s);
+        Node* root = buildTree(s);
         Solution ob;
-        cout << ob.height(root) << endl;
+        cout << ob.diameter(root) << endl;
 
         cout << "~"
              << "\n";
     }
     return 0;
 }
+
 // } Driver Code Ends
