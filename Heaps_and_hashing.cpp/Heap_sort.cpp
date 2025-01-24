@@ -31,7 +31,7 @@ class Solution {
         int n = arr.size();
 
         for (int i = n / 2 - 1; i >= 0; i--)
-            heapify(arr, n, i);
+            heapify(arr, n, i); //creating max heap
 
         for (int i = n - 1; i > 0; i--) {
             swap(arr[0], arr[i]);
