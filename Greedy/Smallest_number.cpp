@@ -24,7 +24,7 @@ class Solution {
         }
         dig[0] = s+1;
         string ans = "";
-        for(digit : dig){
+        for(auto digit : dig){
             ans += to_string(digit);
         }
         return ans;
