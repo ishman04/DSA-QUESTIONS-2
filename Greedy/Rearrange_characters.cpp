@@ -1,3 +1,8 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+
+}
 class Solution {
 public:
     string reorganizeString(string str) {
@@ -46,3 +51,4 @@ public:
         return result;
     }
 };
+
