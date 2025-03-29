@@ -1,30 +1,55 @@
-#include<bits/stdc++.h>
+//{ Driver Code Starts
+#include <bits/stdc++.h>
 using namespace std;
-#define ll long long int
+
+
+// } Driver Code Ends
+
 class Solution {
-public:
+  public:
     vector<vector<int>> dp;
-    int f(vector<int>& coins, int tar,int idx){
-        if(idx>=coins.size()) return INT_MAX;
-        if(tar==0) return 0;
-        if(tar<0) return INT_MAX;
-        if(dp[tar][idx]!=-1) return dp[tar][idx];
-        int ans = INT_MAX;
-
-        // Include current coin and stay at the same index
-        int include = f(coins, tar - coins[idx], idx);
-        if (include != INT_MAX) ans = min(ans, 1 + include);
-
-        // Exclude current coin and move to the next index
-        int exclude = f(coins, tar, idx + 1);
-        ans = min(ans, exclude);
-
-        return dp[tar][idx] = ans;
+    int f(int i,int n, vector<int>& coins, int sum){
+        if(sum==0) return 1;
+        if(i==n || sum < 0 ) return 0;
+        if(dp[i][sum]!=-1) return dp[i][sum];
+        int nottake = f(i+1,n,coins,sum);
+        int take = f(i,n,coins,sum-coins[i]);
+        return dp[i][sum] = nottake + take;
     }
-    int coinChange(vector<int>& coins, int amount) {
+    int count(vector<int>& coins, int sum) {
+        // code here.
         int n = coins.size();
-        dp.resize(amount + 1, vector<int>(n, -1));
-        int result = f(coins,amount,0);
-        return (result==INT_MAX) ? -1 : result;
+        dp.resize(n+1,vector<int> (sum+2,-1));
+        return f(0,n,coins,sum);
     }
 };
+
+
+//{ Driver Code Starts.
+
+int main() {
+
+    int t;
+    cin >> t;
+    cin.ignore();
+    while (t--) {
+        vector<int> arr;
+        string input;
+        getline(cin, input);
+        stringstream ss(input);
+        int number;
+        while (ss >> number) {
+            arr.push_back(number);
+        }
+        int sum;
+        cin >> sum;
+        cin.ignore();
+        Solution ob;
+        cout << ob.count(arr, sum) << endl;
+        cout << "~" << endl;
+    }
+
+    return 0;
+}
+
+// } Driver Code Ends
