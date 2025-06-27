@@ -96,24 +96,41 @@ struct Node
     }
 }; */
 
+/*
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+Node* newNode(int val) {
+    return new Node(val);
+}
+*/
+
 class Solution {
   public:
-    int finalAns = INT_MIN;
-    int helper(Node* node){
-        if(!node) return 0;
-        int h = max(1+helper(node->left),1+helper(node->right));
-        return h;
+    int finalAns = 0;
+
+    int height(Node* node) {
+        if (!node) return 0;
+
+        int leftHeight = height(node->left);
+        int rightHeight = height(node->right);
+
+        finalAns = max(finalAns, leftHeight + rightHeight); 
+        return 1 + max(leftHeight, rightHeight); 
     }
-    void calcHeight(Node* root){
-        if(!root) return;
-        int ans1 = helper(root->left)+helper(root->right);
-        finalAns = max(finalAns,ans1);
-        calcHeight(root->left);
-        calcHeight(root->right);
-    }
+
     int diameter(Node* root) {
-        // Your code here
-        calcHeight(root);
+        height(root);
         return finalAns;
     }
 };
