@@ -4,7 +4,6 @@ int main(){
 
 }
 
-
 struct Node {
     int data;
     Node *left;
