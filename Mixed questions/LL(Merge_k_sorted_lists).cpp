@@ -1,0 +1,39 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+
+}
+
+
+  struct ListNode {
+     int val;
+      ListNode *next;
+      ListNode() : val(0), next(nullptr) {}
+      ListNode(int x) : val(x), next(nullptr) {}
+      ListNode(int x, ListNode *next) : val(x), next(next) {}
+  };
+class Solution {
+public:
+    struct cmp {
+        bool operator()(ListNode* a, ListNode* b) {
+            return a->val > b->val;
+        }
+    };
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        ListNode result(0);
+        ListNode* temp = &result;
+        priority_queue<ListNode*,vector<ListNode*>,cmp> pq;
+        for(int i=0;i<lists.size();i++) 
+        {
+            if(lists[i]) pq.push(lists[i]);
+        }
+        while(!pq.empty()){
+            auto ele = pq.top();
+            pq.pop();
+            temp->next = ele;
+            temp = ele;
+            if(ele->next) pq.push(ele->next);
+        }
+        return result.next;
+    }
+};
